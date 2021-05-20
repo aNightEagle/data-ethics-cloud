@@ -4,19 +4,22 @@ server:
 spring:
   application:
     name: data-ethics-gateway
-  zipkin:
-    base-url: http://127.0.0.1:9411/ #zipkin地址
-    discovery-client-enabled: false #不用开启服务发现
-  sleuth:
-    sampler:
-    probability: 1.0 #采样百分⽐
+#  zipkin:
+#    base-url: http://127.0.0.1:9411/ #zipkin地址
+#    discovery-client-enabled: false #不用开启服务发现
+#  sleuth:
+#    sampler:
+#    probability: 1.0 #采样百分⽐
   cloud:
+#    inetutils:
+#      ignored-interfaces: eth.*              # 忽略网卡，eth.*，正则表达式
+#     preferred-networks: ${discovery.server-ip}    # 选择符合前缀的IP作为服务注册IP, discovery.server-ip就是你的公网IP
     nacos:
       config:
         file-extension: yaml
-        server-addr: 10.10.100.134:8020
+        server-addr: 10.10.100.134:8200
       discovery:
-        server-addr: 10.10.100.134:8020
+        server-addr: 10.10.100.134:8200
 
     gateway:
       routes: #数组形式

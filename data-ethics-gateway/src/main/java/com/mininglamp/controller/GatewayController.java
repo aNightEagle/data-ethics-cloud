@@ -23,7 +23,7 @@ public class GatewayController {
     @RequestMapping("test")
     public String test(){
 
-        return "success";
+        return "gateway success！";
 
     }
 

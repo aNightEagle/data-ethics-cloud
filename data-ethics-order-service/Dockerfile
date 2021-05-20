@@ -22,6 +22,6 @@ COPY ${JAR_FILE} ${BASE_PATH}/${JAR_NAME}
 RUN bash -c 'touch ${BASE_PATH}/${JAR_NAME}'
 
 
-CMD java -jar ${BASE_PATH}/${JAR_NAME} --spring.profiles.active=${MODEL_VERSION} --logging.config=${BASE_PATH}/conf/logback.xml 1> ${BASE_PATH}/logs/debug 2>&1
+CMD java -jar ${BASE_PATH}/${JAR_NAME} --logging.config=${BASE_PATH}/conf/logback.xml 1> ${BASE_PATH}/logs/debug 2>&1
 
 EXPOSE 8889
