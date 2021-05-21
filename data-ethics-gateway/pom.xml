@@ -52,6 +52,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.4.5</version>
                 <executions>
                     <execution>
                         <goals>
@@ -59,7 +60,41 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                    <finalName>${project.build.finalName}</finalName>
+                </configuration>
             </plugin>
+
+<!--            <plugin>-->
+<!--                <groupId>io.fabric8</groupId>-->
+<!--                <artifactId>docker-maven-plugin</artifactId>-->
+<!--                <version>${docker.plugin.version}</version>-->
+<!--                <configuration>-->
+<!--                    &lt;!&ndash;docker主机地址，用于完成docker各项功能&ndash;&gt;-->
+<!--                    <dockerHost>${docker.host}</dockerHost>-->
+<!--                    &lt;!&ndash;registry地址，用于推送，拉取镜像，这里用的是阿里的registry&ndash;&gt;-->
+<!--                    <registry>${docker.registry}</registry>-->
+<!--                    &lt;!&ndash;认证配置，用于私有registry认证，如果忘记了可以去阿里的registry查看&ndash;&gt;-->
+<!--                    <authConfig>-->
+<!--                        <push>-->
+<!--                            <username>${docker.username}</username>-->
+<!--                            <password>${docker.password}</password>-->
+<!--                        </push>-->
+<!--                    </authConfig>-->
+<!--                    <images>-->
+<!--                        &lt;!&ndash; 单个镜像配置 &ndash;&gt;-->
+<!--                        <image>-->
+<!--                            &lt;!&ndash;镜像名(含版本号)&ndash;&gt;-->
+<!--                            <name>${project.name}:${project.version}</name>-->
+<!--                            <build>-->
+<!--                                &lt;!&ndash;使用dockerFile文件&ndash;&gt;-->
+<!--                                <dockerFile>${project.basedir}/Dockerfile</dockerFile>-->
+<!--                            </build>-->
+<!--                        </image>-->
+<!--                    </images>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

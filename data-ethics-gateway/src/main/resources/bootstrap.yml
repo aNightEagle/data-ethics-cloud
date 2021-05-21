@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: data-ethics-gateway
+    name: @artifactId@
   zipkin:
     base-url: http://127.0.0.1:9411/ #zipkin地址
     discovery-client-enabled: false #不用开启服务发现
@@ -12,28 +12,39 @@ spring:
     probability: 1.0 #采样百分⽐
   cloud:
     nacos:
-      config:
-        file-extension: yaml
-        server-addr: 10.10.100.134:8020
       discovery:
-        server-addr: 10.10.100.134:8020
-
+        server-addr: @nacos.host@:@nacos.port@
+        username: @nacos.username@
+        password: @nacos.password@
+        namespace: @nacos.namespace@
+        group: @nacos.group@
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        username: ${spring.cloud.nacos.discovery.username}
+        password: ${spring.cloud.nacos.discovery.password}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        group: ${spring.cloud.nacos.discovery.group}
+        file-extension: yml
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
     gateway:
       routes: #数组形式
-        - id: order-service  #路由唯一标识
-          #uri: http://127.0.0.1:8000  #想要转发到的地址
+              - id: order-service  #路由唯一标识
+      #uri: http://127.0.0.1:8000  #想要转发到的地址
 
-          uri: lb://data-ethics-desensitization-service  #从nocas进行转发
+      uri: lb://data-ethics-desensitization-service  #从nocas进行转发
 
-          order: 1 #优先级，数字越小优先级越高
-          predicates: #断言 配置哪个路径才转发
-            - Path=/order-server/**
-            #- Before=2020-09-11T01:01:01.000+08:00  # 在这个时间点之后不能访问
-            #- Query=source  #一定携带这个参数
+      order: 1 #优先级，数字越小优先级越高
+      predicates: #断言 配置哪个路径才转发
+      - Path=/order-server/**
+      #- Before=2020-09-11T01:01:01.000+08:00  # 在这个时间点之后不能访问
+      #- Query=source  #一定携带这个参数
 
-          filters: #过滤器，请求在传递过程中通过过滤器修改
-            - StripPrefix=1  #去掉第一层前缀
+      filters: #过滤器，请求在传递过程中通过过滤器修改
+      - StripPrefix=1  #去掉第一层前缀
 
       discovery:
-        locator:
-          enabled: true  #开启网关拉取nacos的服务
+      locator:
+      enabled: true  #开启网关拉取nacos的服务
+  profiles:
+    active: @profiles.active@

@@ -12,8 +12,6 @@
     <artifactId>data-ethics-user-service</artifactId>
 
 
-
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

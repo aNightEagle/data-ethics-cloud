@@ -25,14 +25,17 @@
 
 
     <properties>
-
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-
+        <!--docker-maven-plugin配置-->
+<!--        <docker.plugin.version>0.32.0</docker.plugin.version>-->
+<!--        <docker.host>tcp://127.0.0.1:2375</docker.host>-->
+<!--        <docker.registry>registry.cn-shenzhen.aliyuncs.com</docker.registry>-->
+<!--        <docker.namespace>pig4cloud</docker.namespace>-->
+<!--        <docker.username>username</docker.username>-->
+<!--        <docker.password>password</docker.password>-->
     </properties>
-
-
 
     <!--锁定版本-->
     <dependencyManagement>
@@ -64,7 +67,6 @@
                 <scope>import</scope>
             </dependency>
 
-
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -73,11 +75,18 @@
                 <scope>import</scope>
             </dependency>
 
-
         </dependencies>
     </dependencyManagement>
 
     <build>
+        <!--使用maven渲染yml-->
+        <finalName>${project.name}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -101,4 +110,90 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <profiles.active>local</profiles.active>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.host>${NACOS_HOST:10.10.100.134}</nacos.host>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.port>${NACOS_PORT:8200}</nacos.port>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.username>${NACOS_USERNAME:nacos}</nacos.username>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.password>${NACOS_PASSWORD:nacos}</nacos.password>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.namespace>${NACOS_NAMESPACE:public}</nacos.namespace>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.group>${NACOS_GROUP:default_group}</nacos.group>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>develop</id>
+            <properties>
+                <profiles.active>develop</profiles.active>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.host>${NACOS_HOST:10.10.100.134}</nacos.host>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.port>${NACOS_PORT:8200}</nacos.port>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.username>${NACOS_USERNAME:nacos}</nacos.username>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.password>${NACOS_PASSWORD:nacos}</nacos.password>
+                <!--suppress UnresolvedMavenProperty -->
+<!--                <nacos.namespace>${NACOS_NAMESPACE:acb6eea5-ef24-4c97-a9b5-dd006b6840f8}</nacos.namespace>-->
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.group>${NACOS_GROUP:develop}</nacos.group>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.host>${NACOS_HOST:data-ethics-register}</nacos.host>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.port>${NACOS_PORT:8848}</nacos.port>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.username>${NACOS_USERNAME:nacos}</nacos.username>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.password>${NACOS_PASSWORD:nacos}</nacos.password>
+                <!--suppress UnresolvedMavenProperty -->
+<!--                <nacos.namespace>${NACOS_NAMESPACE:970be634-c970-4052-b8bb-55d71bcd83db}</nacos.namespace>-->
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.group>${NACOS_GROUP:test}</nacos.group>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.host>${NACOS_HOST:data-ethics-register}</nacos.host>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.port>${NACOS_PORT:8848}</nacos.port>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.username>${NACOS_USERNAME:nacos}</nacos.username>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.password>${NACOS_PASSWORD:nacos}</nacos.password>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.namespace>${NACOS_NAMESPACE:data-ethics}</nacos.namespace>
+                <!--suppress UnresolvedMavenProperty -->
+                <nacos.group>${NACOS_GROUP:data-ethics}</nacos.group>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 </project>

@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: data-ethics-sdk-service
+    name: @artifactId@
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,16 +13,27 @@ spring:
 
   cloud:
     nacos:
-      config:
-        file-extension: yaml
-        server-addr: 10.10.100.134:8020
       discovery:
-        #server-addr: 127.0.0.1:8848
-        server-addr: 10.10.100.134:8020
+        server-addr: @nacos.host@:@nacos.port@
+        username: @nacos.username@
+        password: @nacos.password@
+        namespace: @nacos.namespace@
+        group: @nacos.group@
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        username: ${spring.cloud.nacos.discovery.username}
+        password: ${spring.cloud.nacos.discovery.password}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        group: ${spring.cloud.nacos.discovery.group}
+        file-extension: yml
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
     sentinel:
       transport:
         dashboard: 10.10.100.134:8030
         port: 8080
+  profiles:
+    active: @profiles.active@
 
 mybatis:
   configuration:
