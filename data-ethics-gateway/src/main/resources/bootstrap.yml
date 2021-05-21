@@ -43,8 +43,8 @@ spring:
       filters: #过滤器，请求在传递过程中通过过滤器修改
       - StripPrefix=1  #去掉第一层前缀
 
-      discovery:
+    discovery:
       locator:
-      enabled: true  #开启网关拉取nacos的服务
+        enabled: true  #开启网关拉取nacos的服务
   profiles:
     active: @profiles.active@
