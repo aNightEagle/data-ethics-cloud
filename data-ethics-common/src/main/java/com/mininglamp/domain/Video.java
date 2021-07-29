@@ -3,8 +3,8 @@ package com.mininglamp.domain;
 import java.util.Date;
 
 /**
- * @Description 
- * @Author zc  
+ * @Description
+ * @Author zc
  * @Version 1.0
  **/
 

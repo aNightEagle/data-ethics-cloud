@@ -24,7 +24,6 @@ public class GatewayController {
     public String test(){
 
         return "success";
-
     }
 
 

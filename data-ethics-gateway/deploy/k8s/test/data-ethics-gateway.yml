@@ -1,0 +1,57 @@
+#----------service----------#
+apiVersion: v1
+kind: Service
+metadata:
+  name:  data-ethics-test-svc
+  namespace: cem-dev
+  labels:
+    app: data-ethics-test-svc
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 9999
+  selector:
+    app: data-ethics-test
+
+---
+#-------deployment---------#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-ethics-test-deployment
+  namespace: cem-dev
+  labels:
+    app: data-ethics-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-ethics-test
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1 # 滚动升级时会先启动 1个pod
+      maxUnavailable: 1 # 滚动升级时允许的最大Unavailable pod 的个数
+  template:
+    metadata:
+      labels:
+        app: data-ethics-test
+    spec:
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: mlamphub
+      containers:
+        - name: data-ethics-test
+          image: hub.intra.mlamp.cn/cem/data-ethics:test
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9999
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1G"
+            requests:
+              cpu: "500m"
+              memory: "512M"

@@ -1,0 +1,30 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: data-ethics-video-service
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/cloud_video?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+
+  cloud:
+    nacos:
+      config:
+        file-extension: yaml
+        server-addr: 10.10.100.134:8020
+      discovery:
+        #server-addr: 127.0.0.1:8848
+        server-addr: 10.10.100.134:8020
+    sentinel:
+      transport:
+        dashboard: 10.10.100.134:8030
+        port: 8080
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
